@@ -40,7 +40,8 @@ class LeNet5Lightning(pl.LightningModule):
         X, y = batch
         y_pred = self(X)
         loss = self.loss_fn(y_pred, y)
-        acc = accuracy(y_pred.softmax(dim=-1), y)
+        # Correção: adicionar o argumento 'task' para especificar o tipo de problema de classificação
+        acc = accuracy(y_pred.softmax(dim=-1), y, task='multiclass', num_classes=10)
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True)
         self.log('val_acc', acc, on_step=True, on_epoch=True, prog_bar=True)
         return loss
